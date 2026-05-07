@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La tua storia - 1522</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            background: #fff0f0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Header ── */
+        .header {
+            background: linear-gradient(to right, #8B0000, #cc0000);
+            padding: 18px 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 16px rgba(139,0,0,0.3);
+        }
+
+        .header-logo { color: white; font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+        .header-sub  { color: rgba(255,255,255,0.65); font-size: 12px; margin-top: 1px; }
+
+        .badge-sicuro {
+            background: rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.85);
+            padding: 7px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* ── Layout ── */
+        .page {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 20px;
+        }
+
+        .wrap {
+            width: 100%;
+            max-width: 620px;
+        }
+
+        /* ── Step indicator ── */
+        .steps {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin-bottom: 28px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .step-circle {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step.done .step-circle {
+            background: #4ade80;
+            color: white;
+        }
+
+        .step.done .step-label { color: #aaa; }
+
+        .step.active .step-circle {
+            background: linear-gradient(135deg, #8B0000, #cc0000);
+            color: white;
+            box-shadow: 0 2px 10px rgba(204,0,0,0.3);
+        }
+
+        .step.active .step-label { color: #cc0000; font-weight: 600; }
+
+        .step-connector {
+            flex: 1;
+            height: 2px;
+            background: #f0e0e0;
+            margin: 0 12px;
+        }
+
+        .step-connector.done { background: #4ade80; }
+
+        /* ── Card ── */
+        .card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            border: 1.5px solid #f5e8e8;
+        }
+
+        .card-top {
+            background: linear-gradient(135deg, #8B0000, #cc0000);
+            padding: 28px 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-top::after {
+            content: '♥';
+            position: absolute;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 80px;
+            color: rgba(255,255,255,0.07);
+            pointer-events: none;
+        }
+
+        .card-top h3 {
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .card-top p {
+            color: rgba(255,255,255,0.7);
+            font-size: 13px;
+            font-weight: 300;
+            line-height: 1.6;
+            max-width: 420px;
+        }
+
+        .card-body { padding: 32px; }
+
+        /* Privacy notice */
+        .privacy-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: #f9f5ff;
+            border: 1.5px solid #e8d8f8;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 24px;
+        }
+
+        .privacy-box .icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+        .privacy-box p {
+            font-size: 13px;
+            color: #7c6b9e;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        /* Textarea */
+        .field label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 10px;
+        }
+
+        .field textarea,
+        #main-form textarea {
+            width: 100%;
+            padding: 16px 18px;
+            border: 2px solid #f0e8e8;
+            border-radius: 14px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 300;
+            color: #333;
+            background: #fdfafa;
+            resize: vertical;
+            min-height: 200px;
+            line-height: 1.7;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+
+        .field textarea:focus,
+        #main-form textarea:focus {
+            outline: none;
+            border-color: #cc0000;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(204,0,0,0.08);
+        }
+
+        .char-hint {
+            text-align: right;
+            font-size: 11px;
+            color: #ddd;
+            margin-top: 6px;
+            margin-bottom: 20px;
+        }
+
+        /* Submit */
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #8B0000, #cc0000);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(204,0,0,0.35);
+            letter-spacing: 0.3px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(204,0,0,0.45);
+        }
+
+        .btn-submit:active { transform: translateY(0); }
+
+        /* Bottom links */
+        .bottom-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn-back {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #bbb;
+            font-size: 13px;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .btn-back:hover { color: #cc0000; }
+
+        .security-note {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #ddd;
+            font-size: 11px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 14px;
+            font-size: 12px;
+            color: #ccc;
+            background: white;
+            border-top: 1px solid #f0e0e0;
+        }
+
+        @media (max-width: 480px) {
+            .card-body { padding: 24px 20px; }
+            .card-top  { padding: 24px 20px; }
+            .header    { padding: 14px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <div>
+            <div class="header-logo">1522</div>
+            <div class="header-sub">Numero Nazionale Antiviolenza</div>
+        </div>
+        <div class="badge-sicuro">🔒 Connessione sicura</div>
+    </div>
+
+    <div class="page">
+        <div class="wrap">
+
+            <!-- Step indicator -->
+            <div class="steps">
+                <div class="step done">
+                    <div class="step-circle">✓</div>
+                    <span class="step-label">I tuoi dati</span>
+                </div>
+                <div class="step-connector done"></div>
+                <div class="step active">
+                    <div class="step-circle">2</div>
+                    <span class="step-label">La tua storia</span>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step">
+                    <div class="step-circle" style="background:#f5f5f5; color:#ccc;">3</div>
+                    <span class="step-label" style="color:#ccc;">Conferma</span>
+                </div>
+            </div>
+
+            <!-- Card -->
+            <div class="card">
+
+                <div class="card-top">
+                    <h3>Raccontaci cosa ti è successo</h3>
+                    <p>Scrivi liberamente, siamo qui ad ascoltarti. Prenditi tutto il tempo che vuoi.</p>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="privacy-box">
+                        <div class="icon">🔒</div>
+                        <p>Tutto quello che scrivi è <strong>strettamente riservato</strong>. Nessun dato verrà condiviso senza il tuo consenso.</p>
+                    </div>
+
+                    <form method="post" id="main-form">
+                        {% csrf_token %}
+
+                        <div class="field">
+                            <label>La tua storia</label>
+                            {{ form.testo }}
+                        </div>
+
+                        <p class="char-hint">Scrivi quanto vuoi, non c'è limite</p>
+
+                        <button type="submit" class="btn-submit">Invia la tua storia →</button>
+                    </form>
+
+                    <div class="bottom-row">
+                        <a href="/" class="btn-back">← Torna indietro</a>
+                        <div class="security-note">🛡️ Dati cifrati e protetti</div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">Grazie a Macchi 😋 · 1522 — Servizio pubblico nazionale</div>
+
+</body>
+</html>

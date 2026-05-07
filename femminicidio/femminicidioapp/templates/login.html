@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin - 1522</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #8B0000 0%, #cc0000 50%, #e83030 100%);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            padding: 20px 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-logo {
+            color: white;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-sub {
+            color: rgba(255,255,255,0.6);
+            font-size: 12px;
+            margin-top: 1px;
+        }
+
+        .badge-sicuro {
+            background: rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.85);
+            padding: 7px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Main area */
+        .page-wrap {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card-outer {
+            width: 100%;
+            max-width: 440px;
+        }
+
+        /* Floating label above card */
+        .card-eyebrow {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .card-eyebrow .icon-wrap {
+            width: 64px; height: 64px;
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.25);
+            border-radius: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .card-eyebrow h2 {
+            color: white;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .card-eyebrow p {
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        /* Card */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 36px;
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.2),
+                0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        /* Error */
+        .errore {
+            background: #fff5f5;
+            border: 1.5px solid #ffc5c5;
+            border-radius: 10px;
+            padding: 11px 16px;
+            color: #cc0000;
+            font-size: 13px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Fields */
+        .field { margin-bottom: 18px; }
+
+        .field label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 8px;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #f0e8e8;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            color: #333;
+            background: #fdfafa;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+
+        .field input:focus {
+            outline: none;
+            border-color: #cc0000;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(204,0,0,0.08);
+        }
+
+        .field input::placeholder { color: #ccc; font-weight: 300; }
+
+        /* Submit */
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #8B0000, #cc0000);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 4px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(204,0,0,0.35);
+            letter-spacing: 0.3px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(204,0,0,0.45);
+        }
+
+        .btn-submit:active { transform: translateY(0); }
+
+        /* Back link */
+        .back-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 22px;
+            color: #bbb;
+            font-size: 13px;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover { color: #cc0000; }
+
+        /* Security note */
+        .security-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 16px;
+            color: #ddd;
+            font-size: 11px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 16px;
+            color: rgba(255,255,255,0.35);
+            font-size: 12px;
+        }
+
+        @media (max-width: 480px) {
+            .card { padding: 28px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div>
+            <div class="header-logo">1522</div>
+            <div class="header-sub">Numero Nazionale Antiviolenza</div>
+        </div>
+        <div class="badge-sicuro">🔒 Connessione sicura</div>
+    </div>
+
+    <div class="page-wrap">
+        <div class="card-outer">
+
+            <div class="card-eyebrow">
+                <div class="icon-wrap">🔐</div>
+                <h2>Accesso Admin</h2>
+                <p>Area riservata agli amministratori</p>
+            </div>
+
+            <div class="card">
+
+                {% if form.errors %}
+                <div class="errore">
+                    ❌ Credenziali errate, riprova.  <!-- se le credenziali sono sbagliate allora errore -->
+                </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="field">
+                        <label>Username</label>
+                        <input type="text" name="username" placeholder="Il tuo username" autofocus> 
+                    </div>
+                    <div class="field">
+                        <label>Password</label>
+                        <input type="password" name="password" placeholder="La tua password">
+                    </div>
+                    <button type="submit" class="btn-submit">Accedi →</button>
+                </form>
+
+                <a href="{% url 'home' %}" class="back-link">← Torna alla Home</a>
+
+                <div class="security-note">
+                    🛡️ Accesso monitorato e protetto
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">Grazie a Macchi 😋 · 1522 — Servizio pubblico nazionale</div>
+
+</body>
+</html>

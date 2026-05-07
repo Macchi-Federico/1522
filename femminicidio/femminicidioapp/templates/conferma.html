@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="it">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grazie - 1522</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff0f0, #ffe0e0);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 60px 48px;
+            text-align: center;
+            max-width: 480px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(204,0,0,0.12);
+            border: 1.5px solid #f5e8e8;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.85) translateY(20px); }
+            to   { opacity: 1; transform: scale(1)    translateY(0);    }
+        }
+
+        .video-wrap {
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 32px rgba(204,0,0,0.15);
+            border: 3px solid #f5e8e8;
+        }
+
+        .video-wrap video {
+            width: 100%;
+            display: block;
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: #999;
+            font-size: 15px;
+            line-height: 1.7;
+            font-weight: 300;
+            margin-bottom: 32px;
+        }
+
+        .btn-home {
+            display: inline-block;
+            padding: 14px 36px;
+            background: linear-gradient(135deg, #8B0000, #cc0000);
+            color: white;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 6px 20px rgba(204,0,0,0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(204,0,0,0.4);
+        }
+
+        .hearts {
+            margin-top: 28px;
+            font-size: 22px;
+            letter-spacing: 6px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1);    opacity: 1;   }
+            50%       { transform: scale(1.15); opacity: 0.8; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+
+        <div class="video-wrap">
+            <video autoplay loop playsinline controls>
+                <source src="{% static 'img/videoconferma.mp4' %}" type="video/mp4"> <!-- questo è il video conforto -->
+            </video>
+        </div>
+
+        <h1>Grazie per il tuo coraggio 💛</h1>
+        <p>
+            La tua segnalazione è stata ricevuta.<br>
+            Sei al sicuro. Siamo qui per te.
+        </p>
+
+        <a href="{% url 'home' %}" class="btn-home">← Torna alla home</a> <!-- questo è bottone per torare home -->
+
+        <div class="hearts">❤️ ❤️ ❤️</div> 
+    </div>
+</body>
+</html>

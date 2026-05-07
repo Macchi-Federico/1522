@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pannello Admin - 1522</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #fff0f0;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(to right, #8B0000, #cc0000);
+            padding: 0 36px;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 16px rgba(139, 0, 0, 0.3);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: baseline;
+            gap: 14px;
+        }
+
+        .header-logo {
+            color: white;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-pipe {
+            width: 1px;
+            height: 18px;
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .header-sub {
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 13px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-user {
+            background: rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .badge-secure {
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .page {
+            max-width: 1150px;
+            margin: 36px auto;
+            padding: 0 24px 60px;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .topbar-title h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .topbar-title p {
+            color: #aaa;
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        .topbar-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-back {
+            padding: 10px 20px;
+            border: 2px solid #e0d0d0;
+            border-radius: 10px;
+            background: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            color: #999;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-back:hover {
+            border-color: #cc0000;
+            color: #cc0000;
+        }
+
+        .btn-logout {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #8B0000, #cc0000);
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 3px 14px rgba(204, 0, 0, 0.3);
+        }
+
+        .btn-logout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(204, 0, 0, 0.4);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 14px;
+            padding: 22px 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border: 1.5px solid #f5e8e8;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.09);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.red {
+            background: #fff0f0;
+        }
+
+        .stat-icon.green {
+            background: #f0fff4;
+        }
+
+        .stat-icon.blue {
+            background: #f0f4ff;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1;
+        }
+
+        .stat-label {
+            color: #bbb;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .table-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            border: 1.5px solid #f5e8e8;
+        }
+
+        .table-head {
+            padding: 22px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1.5px solid #f5e8e8;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .table-head h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .table-head p {
+            color: #bbb;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        .count-pill {
+            background: linear-gradient(135deg, #8B0000, #cc0000);
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 5px 14px;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(204, 0, 0, 0.25);
+            white-space: nowrap;
+        }
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 28px;
+            border-bottom: 1.5px solid #f5e8e8;
+            background: #fdfafa;
+            flex-wrap: wrap;
+        }
+
+        .search-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-wrap input {
+            width: 100%;
+            padding: 10px 16px 10px 40px;
+            border: 1.5px solid #f0e0e0;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            color: #333;
+            background: white;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-wrap input:focus {
+            outline: none;
+            border-color: #cc0000;
+            box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.08);
+        }
+
+        .search-wrap input::placeholder {
+            color: #ccc;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            pointer-events: none;
+        }
+
+        .sort-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sort-label {
+            font-size: 12px;
+            color: #bbb;
+            white-space: nowrap;
+        }
+
+        .sort-select {
+            padding: 10px 14px;
+            border: 1.5px solid #f0e0e0;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            color: #666;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.2s;
+            appearance: none;
+            padding-right: 32px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23aaa' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+
+        .sort-select:focus {
+            outline: none;
+            border-color: #cc0000;
+        }
+
+        .btn-cerca {
+            padding: 10px 22px;
+            background: linear-gradient(135deg, #8B0000, #cc0000);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 3px 12px rgba(204, 0, 0, 0.25);
+            white-space: nowrap;
+        }
+
+        .btn-cerca:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 18px rgba(204, 0, 0, 0.35);
+        }
+
+        .results-info {
+            padding: 10px 28px;
+            font-size: 12px;
+            color: #bbb;
+            border-bottom: 1px solid #faf0f0;
+            background: #fffafa;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .results-info strong {
+            color: #cc0000;
+        }
+
+        .btn-reset {
+            font-size: 12px;
+            color: #cc0000;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .btn-reset:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead tr {
+            background: #fdf5f5;
+        }
+
+        thead th {
+            padding: 13px 20px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            color: #cc0000;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1.5px solid #f5e8e8;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #faf0f0;
+            transition: background 0.15s;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #fff8f8;
+        }
+
+        tbody td {
+            padding: 16px 20px;
+            font-size: 14px;
+            color: #444;
+            vertical-align: middle;
+        }
+
+        .id-tag {
+            display: inline-block;
+            background: #f5f5f5;
+            color: #999;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 8px;
+        }
+
+        .user-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #8B0000, #cc0000);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .user-info strong {
+            display: block;
+            font-weight: 500;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .user-info small {
+            color: #bbb;
+            font-size: 12px;
+        }
+
+        .testo-cell {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        /* ── Stato dropdown ── */
+        .stato-select {
+            padding: 6px 30px 6px 10px;
+            border-radius: 8px;
+            border: 1.5px solid;
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23aaa' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            transition: all 0.2s;
+        }
+
+        .stato-select:focus {
+            outline: none;
+        }
+
+        .stato-in_attesa {
+            border-color: #f0a500;
+            color: #f0a500;
+            background-color: #fffbf0;
+        }
+
+        .stato-in_corso {
+            border-color: #0066cc;
+            color: #0066cc;
+            background-color: #f0f4ff;
+        }
+
+        .stato-accettata {
+            border-color: #00aa55;
+            color: #00aa55;
+            background-color: #f0fff4;
+        }
+
+        .stato-rifiutata {
+            border-color: #cc0000;
+            color: #cc0000;
+            background-color: #fff0f0;
+        }
+
+        .stato-form {
+            margin: 0;
+        }
+
+        /* Toast notifica */
+        .toast {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: #1a1a1a;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .empty-state {
+            padding: 70px 20px;
+            text-align: center;
+        }
+
+        .empty-state .big-icon {
+            font-size: 56px;
+            margin-bottom: 16px;
+        }
+
+        .empty-state h5 {
+            color: #888;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .empty-state p {
+            color: #ccc;
+            font-size: 13px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 14px;
+            font-size: 12px;
+            color: #ccc;
+            background: white;
+            border-top: 1px solid #f0e0e0;
+        }
+
+        @media (max-width: 680px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header {
+                padding: 0 20px;
+            }
+
+            .page {
+                margin: 24px auto;
+            }
+
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 14px 20px;
+            }
+
+            .sort-wrap {
+                width: 100%;
+            }
+
+            .sort-select {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- toast è un piccolo messaggio -->
+    <div class="toast" id="toast">✅ Stato aggiornato</div>
+
+
+    <div class="header">
+        <div class="header-left">
+            <div class="header-logo">1522</div>
+            <div class="header-pipe"></div>
+            <div class="header-sub">Pannello Amministratore</div>
+        </div>
+        <div class="header-right">
+            <div class="badge badge-user">👤 {{ request.user.username }}</div>
+            <div class="badge badge-secure">🔒 Area riservata</div>
+        </div>
+    </div>
+
+    <div class="page">
+
+        <!-- topbar oggetto grafico -->
+        <div class="topbar">
+            <div class="topbar-title">
+                <h2>Ciao, {{ request.user.username }} 👋</h2> <!-- stampa nome dell admin -->
+                <p>Ecco tutte le testimonianze ricevute dal sistema</p>
+            </div>
+            <div class="topbar-actions">
+                <a href="{% url 'home' %}" class="btn-back">← Home</a> <!-- bottone per tornare home -->
+                <form method="post" action="{% url 'logout' %}" style="display:inline;"> <!-- bottone per sloggare -->
+                    {% csrf_token %} <!-- impedisce Cross-Site Request Forgery -->
+                    <button type="submit" class="btn-logout">Logout</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- visualizzazione dati -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-icon red">📋</div>
+                <div>
+                    <div class="stat-value">{{ testimonianze|length|default:"0" }}</div> <!-- Testimonianze totali -->
+                    <div class="stat-label">Testimonianze totali</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green">✅</div>
+                <div>
+                    <div class="stat-value">24/7</div>
+                    <div class="stat-label">Servizio attivo</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon blue">🔒</div>
+                <div>
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Dati protetti</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table card -->
+        <div class="table-card">
+
+            <div class="table-head">
+                <div>
+                    <h4>Testimonianze ricevute</h4>
+                    <p>Usa la ricerca e l'ordinamento qui sotto</p>
+                </div>
+                <div class="count-pill">{{ testimonianze|length }} risultati</div> <!-- Numero Testimonianze totali -->
+            </div>
+
+            <!-- barra strumenti -->
+            <form method="get" class="toolbar">
+                <div class="search-wrap">
+                    <span class="search-icon">🔍</span>
+                    <!-- imput di ricerca il valore passato alla query -->
+                    <input type="text" name="q" placeholder="Cerca per nome, cognome o testo..." value="{{ query }}">
+                </div>
+
+                <div class="sort-wrap">
+                    <span class="sort-label">Ordina per:</span>
+                    <!-- le varie casistiche per lordine -->
+                    <select name="ordine" class="sort-select">
+                        <option value="-id" {% if ordine == '-id' %}selected{% endif %}>ID (più recenti)</option>
+                        <option value="id" {% if ordine == 'id' %}selected{% endif %}>ID (meno recenti)</option>
+                        <option value="nome" {% if ordine == 'nome' %}selected{% endif %}>Nome A → Z</option>
+                        <option value="-nome" {% if ordine == '-nome' %}selected{% endif %}>Nome Z → A</option>
+                        <option value="stato" {% if ordine == 'stato' %}selected{% endif %}>Stato A → Z</option>
+                        <option value="-stato" {% if ordine == '-stato' %}selected{% endif %}>Stato Z → A</option>
+
+                    </select>
+                    <!-- Se la variabile ordine è uguale alla stringa '-id' allora scrivi la parola selected nella pagina HTML; altrimenti, non scrivere nulla-->
+                </div>
+
+                <button type="submit" class="btn-cerca">Cerca</button>
+            </form>
+
+            {% if query %} <!-- se ricerca esiste -->
+            <div class="results-info">
+                <span>Trovati <strong>{{ testimonianze|length }}</strong> risultati per "<strong>{{ query
+                        }}</strong>"</span>
+                <a href="{% url 'pannello_admin' %}" class="btn-reset">✕ Cancella ricerca</a>
+                <!-- per cancellare resetto pagina  -->
+            </div>
+            {% endif %}
+
+            <!-- Tabella -->
+            {% if testimonianze %} <!-- se esiste testimonianze -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Utente</th>
+                        <th>Contatto</th>
+                        <th>Testo</th>
+                        <th>Stato</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <!-- Ciclo su tutte le testimonianze -->
+                    {% for t in testimonianze %}
+
+                    <tr>
+
+                        <!-- ID testimonianza -->
+                        <td>
+                            <span class="id-tag">#{{ t.id }}</span>
+                        </td>
+
+                        <!-- Informazioni utente -->
+                        <td>
+
+                            <div class="user-chip">
+
+                                <!-- Avatar con iniziale -->
+                                <div class="user-avatar">
+                                    {{ t.nome|default:"?"|first|upper }}
+                                </div>
+
+                                <!-- Nome utente -->
+                                <div class="user-info">
+
+                                    <strong>
+                                        {{ t.nome|default:"—" }} {{ t.cognome|default:"" }}
+                                    </strong>
+
+                                    <!-- Regione -->
+                                    <small>{{ t.regione|default:"—" }}</small>
+
+                                </div>
+                            </div>
+
+                        </td>
+
+                        <!-- Email o telefono -->
+                        <td>
+                            <small style="color:#aaa;">
+                                {{ t.cell_email|default:"—" }}
+                            </small>
+                        </td>
+
+                        <!-- Testo testimonianza -->
+                        <td>
+                            <span class="testo-cell">{{ t.testo }}</span>
+                        </td>
+
+                        <!-- Stato testimonianza -->
+                        <td>
+
+                            <!-- Form aggiornamento stato -->
+                            <form method="post" action="{% url 'aggiorna_stato' t.id %}" class="stato-form">
+
+                                {% csrf_token %}
+
+                                <!-- Select per cambiare stato -->
+                                <select name="stato" class="stato-select stato-{{ t.stato }}"
+                                    onchange="submitStato(this)">
+
+                                    <option value="in_attesa" {% if t.stato == 'in_attesa' %}selected{% endif %}>
+                                        ⏳ In attesa
+                                    </option>
+
+                                    <option value="accettata" {% if t.stato == 'accettata' %}selected{% endif %}>
+                                        ✅ Accettata
+                                    </option>
+
+                                    <option value="rifiutata" {% if t.stato == 'rifiutata' %}selected{% endif %}>
+                                        ❌ Rifiutata
+                                    </option>
+                                </select>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% else %} <!-- in caso non trovi nulla-->
+            <div class="empty-state">
+                <div class="big-icon">{% if query %}🔎{% else %}📭{% endif %}</div>
+                <h5>{% if query %}Nessun risultato{% else %}Nessuna testimonianza{% endif %}</h5>
+                <p>
+                    {% if query %}
+                    Nessuna testimonianza trovata per "{{ query }}". 
+                    <a href="{% url 'pannello_admin' %}" style="color:#cc0000;">Cancella ricerca</a>
+                    {% else %}
+                    Non è ancora arrivata nessuna segnalazione.
+                    {% endif %}
+                </p>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <div class="footer">Grazie a Macchi 😋 · 1522 — Servizio pubblico nazionale</div>
+
+    <script>
+        // Aggiorna colore del select quando cambia valore
+        function submitStato(select) {
+            // Aggiorna classe colore immediatamente
+            select.className = 'stato-select stato-' + select.value;
+            // Mostra toast
+            showToast('✅ Stato aggiornato');
+            // Submit del form
+            select.closest('form').submit();
+        }
+
+        function showToast(msg) { //funzione per far vedere il toast
+            const toast = document.getElementById('toast'); //prende div toast
+            toast.textContent = msg; //cambia testo
+            toast.classList.add('show'); // mostra
+            setTimeout(() => toast.classList.remove('show'), 2500); //2.5 secondi
+        }
+
+    </script>
+
+</body>
+
+</html>

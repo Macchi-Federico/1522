@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1522 - Numero Antiviolenza</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fff0f0;
+        }
+
+        /* --- LANDING --- */
+        #landing {
+            position: fixed;
+            inset: 0;
+            z-index: 99;
+            background: linear-gradient(135deg, #8B0000, #cc0000);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px;
+            transition: opacity 0.6s ease;
+        }
+
+        #landing.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #landing h1 {
+            font-size: 120px;
+            font-weight: 700;
+            color: white;
+            line-height: 1;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        #landing p.sottotitolo {
+            color: rgba(255,255,255,0.85);
+            font-size: 18px;
+            margin-top: 10px;
+            font-weight: 300;
+        }
+
+        #landing hr {
+            width: 60px;
+            border: none;
+            border-top: 2px solid rgba(255,255,255,0.4);
+            margin: 25px auto;
+        }
+
+        #landing p.desc {
+            color: rgba(255,255,255,0.75);
+            font-size: 15px;
+            max-width: 400px;
+            line-height: 1.7;
+        }
+
+        #btnStart {
+            margin-top: 35px;
+            padding: 15px 45px;
+            background: white;
+            color: #cc0000;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.25);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        #btnStart:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+        }
+
+        .emergenza {
+            margin-top: 22px;
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+        }
+
+        .emergenza strong {
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* --- MAIN --- */
+        #main {
+            display: none;
+        }
+
+        #main.visible {
+            display: block;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(to right, #8B0000, #cc0000);
+            padding: 18px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-logo {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .header-sub {
+            color: rgba(255,255,255,0.7);
+            font-size: 13px;
+        }
+
+        .badge-sicuro {
+            background: rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.8);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .badge-sicuro::before {
+            content: '🔒';
+            font-size: 12px;
+        }
+
+        /* Layout */
+        .container {
+            display: flex;
+            min-height: calc(100vh - 65px);
+        }
+
+        /* Pannello sinistro */
+        .left {
+            width: 40%;
+            background: #7a0000;
+            color: white;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .left h2 {
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 18px;
+        }
+
+        .left p {
+            color: rgba(255,255,255,0.65);
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 35px;
+            font-weight: 300;
+        }
+
+        .info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .info-item span.icon {
+            background: rgba(255,255,255,0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        /* Form */
+        .right {
+            flex: 1;
+            background: #fff0f0;
+            padding: 50px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .right h3 {
+            font-size: 26px;
+            font-weight: 600;
+            color: #2d2d2d;
+            margin-bottom: 6px;
+        }
+
+        .right .intro {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .field input,
+        .field select,
+        #main input,
+        #main select {
+            width: 100%;
+            padding: 13px 16px;
+            border: 1.5px solid #e0d0d0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            color: #333;
+            background: white;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            appearance: none;
+            margin-bottom: 0;
+        }
+
+        #main input:focus,
+        #main select:focus {
+            outline: none;
+            border-color: #cc0000;
+            box-shadow: 0 0 0 3px rgba(204,0,0,0.1);
+        }
+
+        .btn-invia {
+            width: 100%;
+            padding: 15px;
+            background: #cc0000;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: background 0.2s, transform 0.2s;
+            box-shadow: 0 4px 18px rgba(204,0,0,0.3);
+        }
+
+        .btn-invia:hover {
+            background: #aa0000;
+            transform: translateY(-2px);
+        }
+
+        .garanzie {
+            display: flex;
+            gap: 16px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            margin-left: 234px;
+        }
+
+        .garanzia {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .garanzia::before {
+            content: '✓';
+            color: #4ade80;
+            font-weight: 700;
+        }
+
+        /* Admin */
+        .admin-sep {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 25px 0 18px;
+            color: #ccc;
+            font-size: 12px;
+        }
+
+        .admin-sep::before,
+        .admin-sep::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e8d8d8;
+        }
+
+        .admin-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-admin {
+            flex: 1;
+            padding: 11px;
+            border: 1.5px solid #e0d0d0;
+            border-radius: 8px;
+            background: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            color: #999;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-admin:hover {
+            border-color: #cc0000;
+            color: #cc0000;
+        }
+
+        .btn-logout {
+            padding: 11px 18px;
+            border: 1.5px solid #e0d0d0;
+            border-radius: 8px;
+            background: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            color: #bbb;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            color: #999;
+            border-color: #ccc;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 14px;
+            font-size: 12px;
+            color: #ccc;
+            background: white;
+            border-top: 1px solid #f0e0e0;
+        }
+
+        @media (max-width: 768px) {
+            #landing h1 { font-size: 80px; }
+            .container { flex-direction: column; }
+            .left { width: 100%; padding: 35px 25px; }
+            .right { padding: 35px 25px; }
+            .form-row { grid-template-columns: 1fr; }
+            .header { padding: 14px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- interfaccia LANDING -->
+<div id="landing">
+    <h1>1522</h1>
+    <p class="sottotitolo">Numero Nazionale Antiviolenza e Stalking</p>
+    <hr>
+    <p class="desc">Sei al sicuro qui. Questo spazio è riservato a chi cerca supporto. I tuoi dati sono protetti.</p>
+    <button id="btnStart">Inizia →</button>
+    <p class="emergenza">Pericolo immediato? Chiama il <strong>112</strong></p>
+</div>
+
+<!-- interfaccia MAIN -->
+<div id="main">
+
+    <div class="header">
+        <div>
+            <div class="header-logo">1522</div>
+            <div class="header-sub">Numero Nazionale Antiviolenza</div>
+        </div>
+        <div class="badge-sicuro">Connessione sicura</div>
+    </div>
+
+    <div class="container">
+
+        <div class="left">
+            <h2>Sei nel posto giusto.</h2>
+            <p>Il 1522 è un servizio pubblico gratuito attivo 24 ore su 24. Operatrici specializzate ti ascolteranno con rispetto e discrezione.</p>
+            <div class="info-list">
+                <div class="info-item">
+                    <span class="icon">🕐</span>
+                    Attivo 24/7, tutti i giorni
+                </div>
+                <div class="info-item">
+                    <span class="icon">🔒</span>
+                    Totalmente riservato
+                </div>
+                <div class="info-item">
+                    <span class="icon">💬</span>
+                    Operatrici specializzate
+                </div>
+                <div class="info-item">
+                    <span class="icon">✅</span>
+                    Completamente gratuito
+                </div>
+            </div>
+        </div>
+
+        <div class="right">
+            <h3>Inserisci i tuoi dati</h3>
+            <p class="intro">Sarai contattata da un'operatrice qualificata. Nessun dato verrà condiviso.</p>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-row">
+                    <div class="field">
+                        <label>Nome</label>
+                        {{ form.nome }}
+                    </div>
+                    <div class="field">
+                        <label>Cognome</label>
+                        {{ form.cognome }}
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Telefono o Email</label>
+                    {{ form.cell_email }}
+                </div>
+
+                <div class="field">
+                    <label>Regione</label>
+                    {{ form.regione }}
+                </div>
+
+                <button type="submit" class="btn-invia">Continua →</button>
+            </form>
+            <center>
+            <div class="garanzie">
+                <div class="garanzia">Dati cifrati</div>
+                <div class="garanzia">Anonimato garantito</div>
+            </div>
+            </center>   
+            <div class="admin-sep">accesso riservato</div>
+
+            <div class="admin-row">
+                {% if request.user.is_authenticated %} <!--Se l’utente è loggato mostra pannello admin + tasto logout-->
+                <a href="{% url 'pannello_admin' %}" style="flex:1; text-decoration:none;">
+                    <button class="btn-admin" style="width:100%">Pannello Admin →</button> <!---Bottone che mostra il pannello admin -->
+                </a>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-logout">Logout</button> <!---Bottone che mostra il bottone logout -->
+                </form>
+                {% else %} <!---se non sono loggato -->
+                <a href="{% url 'login' %}" style="flex:1; text-decoration:none;">
+                    <button class="btn-admin" style="width:100%">Accedi come Admin</button> <!---Bottone per accedere ad admin -->
+                </a>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">Grazie a Macchi 😋 · 1522 — Servizio pubblico nazionale</div>
+</div>
+
+<script>
+    //funzione per cambio tra schermate con animazione 
+// prende oggetto id "btnStart" (di solito un bottone)
+document.getElementById('btnStart')
+
+    // Aggiunge evento: quando si clicca il bottone
+    .addEventListener('click', function() {
+
+        // Seleziona l'elemento con id "landing"
+        // e aggiunge la classe CSS "hidden" per fare effetto dissolvenza
+        document.getElementById('landing').classList.add('hidden');
+
+       
+        
+        setTimeout(function() {
+
+            // Imposta l'interfaccia landing: none per renderlo invisibile
+            
+            document.getElementById('landing').style.display = 'none';
+
+            //rende il main visibile con effetto contrario alla dissolvenza
+            document.getElementById('main').classList.add('visible');
+
+        }, 600); // 600 millisecondi di attesa perchè è quanto dura la disolvenza 
+
+    });
+
+</script>
+
+</body>
+</html>
